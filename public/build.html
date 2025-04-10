@@ -395,7 +395,7 @@
                 const jsonString = JSON.stringify(clientData, null, 4);
                 const base64String = btoa(unescape(encodeURIComponent(jsonString)));
                 
-                resultCode.textContent = `https://saladofuturo-auth.vercel.app/oauth2?client=${base64String}`;
+                resultCode.textContent = `https://saladofuturo.vercel.app/authorize?client=${base64String}`;
                 resultContainer.classList.remove('hidden');
                 
                 resultContainer.scrollIntoView({ behavior: 'smooth' });
