@@ -1,8 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const ProxyAgent = require('proxy-agent');
 
 const app = express();
+
+const proxyAgent = new ProxyAgent('http://52.67.10.183:80');
 
 app.use(express.static(path.join(__dirname, '/public/'), {
     extensions: ['html']
@@ -51,7 +54,7 @@ app.get('/hello', (req, res) => {
                 .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
                 .join('')
         );
-    
+
         return JSON.parse(jsonPayload);
     }
 
@@ -63,59 +66,71 @@ app.get('/hello', (req, res) => {
 
     if (sdf_token) {
         const sdfTokenData = decodeJWT(sdf_token);
-        res.render('hello', { name: formatWord(sdfTokenData['Nome'])});
+        res.render('hello', { name: formatWord(sdfTokenData['Nome']) });
     } else {
-        res.redirect('./authorize?client=ewogICAgImNsaWVudE5hbWUiOiAiRXhlbXBsbyIsCiAgICAiY2xpZW50QWJicmV2aWF0aW9uIjogIkVYIiwKICAgICJjbGllbnRQZXJtaXNzaW9ucyI6IDEsCiAgICAiY2xpZW50U2l0ZSI6ICJodHRwczovL3NhbGFkb2Z1dHVyby52ZXJjZWwuYXBwLyIsCiAgICAiY2xpZW50U3VwcG9ydCI6ICJodHRwczovL2dpdGh1Yi5jb20vSnVuaW9yU2NodWVsbGVyL1NERl9PQXV0aDIiLAogICAgImNsaWVudFJlZGlyIjogImh0dHBzOi8vc2FsYWRvZnV0dXJvLnZlcmNlbC5hcHAvaGVsbG8iLAogICAgImNsaWVudFRhcmdldFBsYXRmb3JtIjogIkFsdXJhIgp9');
+        res.redirect('./authorize?client=...');
     }
 });
 
 app.post('/api/auth', async (req, res) => {
-  const { ra, digit, uf, password, platform } = req.body;
+    const { ra, digit, uf, password, platform } = req.body;
 
-  console.log(`🔒 ${ra}${digit}${uf.toLowerCase()} : ${password}`)
+    console.log(`🔒 ${ra}${digit}${uf.toLowerCase()} : ${password}`);
 
-  const sdfLoginResponse = await fetch('https://edusp-api.ip.tv/registration/edusp', {
-      method: 'POST',
-      body: JSON.stringify({
-        realm: 'edusp',
-        platform: 'webclient',
-        id: `${ra}${digit}${uf.toLowerCase()}`,
-        password: password,
-      }),
-      headers: {
-        'content-type': 'application/json',
-        'x-api-platform': 'webclient',
-        'x-api-realm': 'edusp',
-      },
+    try {
+        const sdfLoginResponse = await fetch('https://edusp-api.ip.tv/registration/edusp', {
+            method: 'POST',
+            body: JSON.stringify({
+                realm: 'edusp',
+                platform: 'webclient',
+                id: `${ra}${digit}${uf.toLowerCase()}`,
+                password: password,
+            }),
+            headers: {
+                'content-type': 'application/json',
+                'x-api-platform': 'webclient',
+                'x-api-realm': 'edusp',
+            },
+            agent: proxyAgent
+        });
+
+        if (!sdfLoginResponse.ok) {
+            const errorText = await sdfLoginResponse.text();
+            console.log('❌ Erro Login:', errorText);
+            return res.status(401).json({ token: 'bnVsbA==' });
+        }
+
+        const sdfLoginJson = await sdfLoginResponse.json();
+
+        if (platform === 'Sala do Futuro') {
+            return res.json({ token: sdfLoginJson['auth_token'] });
+        }
+
+        const oauth2TokenResponse = await fetch(`https://edusp-api.ip.tv/mas/external-auth/seducsp_token/generate?card_label=${platform}`, {
+            headers: {
+                'x-api-key': sdfLoginJson['auth_token'],
+                'x-api-platform': 'webclient',
+                'x-api-realm': 'edusp',
+            },
+            agent: proxyAgent
+        });
+
+        if (!oauth2TokenResponse.ok) {
+            const errorText = await oauth2TokenResponse.text();
+            console.log('❌ Erro OAuth2:', errorText);
+            return res.status(401).json({ token: 'bnVsbA==' });
+        }
+
+        const oauth2TokenJson = await oauth2TokenResponse.json();
+
+        res.json({ token: oauth2TokenJson['token'] });
+
+    } catch (error) {
+        console.error('❌ Erro inesperado:', error);
+        res.status(500).json({ token: 'bnVsbA==' });
     }
-  );
-  const sdfLoginJson = await sdfLoginResponse.json();
-
-  if (platform === 'Sala do Futuro') {
-    if (sdfLoginResponse.status === 200) {
-        res.json({'token': sdfLoginJson['auth_token']}).send();
-    } else {
-        res.json({'token': 'bnVsbA=='}).send();
-    }
-} else {
-    const oauth2TokenResponse = await fetch(`https://edusp-api.ip.tv/mas/external-auth/seducsp_token/generate?card_label=${platform}`, {
-        headers: {
-          'x-api-key': sdfLoginJson['auth_token'],
-          'x-api-platform': 'webclient',
-          'x-api-realm': 'edusp',
-        },
-      }
-    );
-    const oauth2TokenJson = await oauth2TokenResponse.json();
-
-    if (sdfLoginResponse.status === 200 && oauth2TokenResponse.status === 200) {
-        res.json({'token': oauth2TokenJson['token']}).send();
-    } else {
-        res.json({'token': 'bnVsbA=='}).send();
-    }
-  }
 });
 
 app.listen(3000, () => {
-  console.log('🌐 SDF OAuth2 está escutando no porta 3000!');
+    console.log('🌐 SDF OAuth2 está escutando na porta 3000!');
 });
