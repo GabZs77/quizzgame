@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sala do Futuro OAuth2 - Criar Autorização</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-red: #E30613;
+            --dark-red: #C00511;
+            --light-red: #FF4D5A;
+            --white: #FFFFFF;
+            --light-gray: #F5F5F5;
+            --medium-gray: #E0E0E0;
+            --dark-gray: #333333;
+            --text-gray: #666666;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-red), var(--light-red));
+            padding: 30px 20px;
+            text-align: center;
+            color: var(--white);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header img {
+            max-width: 260px;
+            height: auto;
+        }
+
+        .header h1 {
+            font-weight: 700;
+            font-size: 28px;
+            letter-spacing: 1px;
+            margin-top: 15px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .form-container {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-gray);
+        }
+
+        .form-group input, 
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 4px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus, 
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary-red);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(227, 6, 19, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .permissions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .permission-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: var(--light-gray);
+            border-radius: 4px;
+        }
+
+        .permission-item input {
+            width: auto;
+            margin-right: 10px;
+        }
+
+        .platforms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .platform-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .platform-item input {
+            width: auto;
+            margin-right: 8px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-red), var(--light-red));
+            color: var(--white);
+            box-shadow: 0 4px 12px rgba(227, 6, 19, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--dark-red), var(--primary-red));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(227, 6, 19, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .result-container {
+            margin-top: 30px;
+            background-color: var(--light-gray);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-red);
+        }
+
+        .result-container h3 {
+            margin-bottom: 15px;
+            color: var(--dark-gray);
+        }
+
+        .result-code {
+            background-color: var(--white);
+            padding: 15px;
+            border-radius: 4px;
+            font-family: monospace;
+            word-break: break-all;
+            overflow-wrap: break-word;
+            white-space: pre-wrap;
+        }
+
+        .copy-btn {
+            margin-top: 10px;
+            background-color: var(--dark-gray);
+            color: var(--white);
+        }
+
+        .copy-btn:hover {
+            background-color: #444;
+        }
+
+        .footer {
+            background-color: var(--dark-gray);
+            color: var(--white);
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+            margin-top: 40px;
+        }
+
+        .footer a {
+            color: var(--light-red);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .permissions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .platforms-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="https://i.imgur.com/KtYrhkP.png" alt="Sala do Futuro">
+    </div>
+
+    <div class="container">
+        <div class="form-container">
+            <form id="clientForm">
+                <div class="form-group">
+                    <label for="clientName">Nome do Cliente*</label>
+                    <input type="text" id="clientName" required placeholder="Ex: Exemplo">
+                </div>
+                
+                <div class="form-group">
+                    <label for="clientAbbreviation">Abreviação do Cliente*</label>
+                    <input type="text" id="clientAbbreviation" required placeholder="Ex: EX" maxlength="2">
+                </div>
+                
+                <div class="form-group">
+                    <label for="clientSite">Site do Cliente*</label>
+                    <input type="url" id="clientSite" required placeholder="Ex: https://example.com/">
+                </div>
+                
+                <div class="form-group">
+                    <label for="clientSupport">Link de Suporte*</label>
+                    <input type="url" id="clientSupport" required placeholder="Ex: https://example.com/support">
+                </div>
+                
+                <div class="form-group">
+                    <label for="clientRedir">URL de Redirecionamento*</label>
+                    <input type="url" id="clientRedir" required placeholder="Ex: https://example.com/auth/callback">
+                </div>
+                
+                <div class="form-group">
+                    <label>Plataforma Alvo*</label>
+                    <div class="platforms-grid">
+                        <div class="platform-item">
+                            <input type="checkbox" id="platformSdf" value="Sala do Futuro">
+                            <label for="platformSdf">Sala do Futuro</label>
+                        </div>
+                        <div class="platform-item">
+                            <input type="checkbox" id="platformSpeak" value="SPeak">
+                            <label for="platformSpeak">SPeak</label>
+                        </div>
+                        <div class="platform-item">
+                            <input type="checkbox" id="platformLeiaSP" value="LeiaSP+">
+                            <label for="platformLeiaSP">LeiaSP</label>
+                        </div>
+                        <div class="platform-item">
+                            <input type="checkbox" id="platformKhan" value="Khan Academy">
+                            <label for="platformKhan">Khan Academy</label>
+                        </div>
+                        <div class="platform-item">
+                            <input type="checkbox" id="platformMatific" value="Matific">
+                            <label for="platformMatific">Matific</label>
+                        </div>
+                        <div class="platform-item">
+                            <input type="checkbox" id="platformProfissional" value="Educação Profissional">
+                            <label for="platformProfissional">Educação Profissional</label>
+                        </div>
+                        <div class="platform-item">
+                            <input type="checkbox" id="platformAlura" value="Alura">
+                            <label for="platformAlura">Alura</label>
+                        </div>
+                        <div class="platform-item">
+                            <input type="checkbox" id="platformMicrobit" value="Microbit">
+                            <label for="platformMicrobit">Microbit</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Permissões*</label>
+                    <div class="permissions-grid">
+                        <div class="permission-item">
+                            <input type="checkbox" id="perm1" value="1">
+                            <label for="perm1">Acessar suas informações</label>
+                        </div>
+                        <div class="permission-item">
+                            <input type="checkbox" id="perm2" value="2">
+                            <label for="perm2">Acessar suas plataformas</label>
+                        </div>
+                        <div class="permission-item">
+                            <input type="checkbox" id="perm4" value="4">
+                            <label for="perm4">Realizar suas tarefas</label>
+                        </div>
+                        <div class="permission-item">
+                            <input type="checkbox" id="perm8" value="8">
+                            <label for="perm8">Realizar suas redações</label>
+                        </div>
+                        <div class="permission-item">
+                            <input type="checkbox" id="perm16" value="16">
+                            <label for="perm16">Realizar suas provas</label>
+                        </div>
+                        <div class="permission-item">
+                            <input type="checkbox" id="perm32" value="32">
+                            <label for="perm32">Verificar sua presença</label>
+                        </div>
+                        <div class="permission-item">
+                            <input type="checkbox" id="perm64" value="64">
+                            <label for="perm64">Verificar sua agenda</label>
+                        </div>
+                        <div class="permission-item">
+                            <input type="checkbox" id="perm128" value="128">
+                            <label for="perm128">Verificar seu boletim</label>
+                        </div>
+                        <div class="permission-item">
+                            <input type="checkbox" id="perm256" value="256">
+                            <label for="perm256">Acessar suas mensagens</label>
+                        </div>
+                        <div class="permission-item">
+                            <input type="checkbox" id="perm512" value="512">
+                            <label for="perm512">Acessar suas pesquisas</label>
+                        </div>
+                        <div class="permission-item">
+                            <input type="checkbox" id="perm1024" value="1024">
+                            <label for="perm1024">Realizar pesquisas</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Gerar URL de Autorização</button>
+            </form>
+            
+            <div class="result-container hidden" id="resultContainer">
+                <h3>URL de Autorização:</h3>
+                <div class="result-code" id="resultCode"></div>
+                <button class="btn copy-btn" id="copyBtn">Copiar para Área de Transferência</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const clientForm = document.getElementById('clientForm');
+            const resultContainer = document.getElementById('resultContainer');
+            const resultCode = document.getElementById('resultCode');
+            const copyBtn = document.getElementById('copyBtn');
+            
+            clientForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const clientName = document.getElementById('clientName').value;
+                const clientAbbreviation = document.getElementById('clientAbbreviation').value;
+                const clientSite = document.getElementById('clientSite').value;
+                const clientSupport = document.getElementById('clientSupport').value;
+                const clientRedir = document.getElementById('clientRedir').value;
+                
+                const platformCheckboxes = document.querySelectorAll('.platforms-grid input[type="checkbox"]:checked');
+                const clientTargetPlatform = Array.from(platformCheckboxes).map(cb => cb.value).join(',');
+                
+                const permissionCheckboxes = document.querySelectorAll('.permissions-grid input[type="checkbox"]:checked');
+                let clientPermissions = 0;
+                
+                permissionCheckboxes.forEach(cb => {
+                    clientPermissions += parseInt(cb.value, 10);
+                });
+                
+                const clientData = {
+                    clientName,
+                    clientAbbreviation,
+                    clientPermissions,
+                    clientSite,
+                    clientSupport,
+                    clientRedir,
+                    clientTargetPlatform
+                };
+                
+                const jsonString = JSON.stringify(clientData, null, 4);
+                const base64String = btoa(unescape(encodeURIComponent(jsonString)));
+                
+                resultCode.textContent = `https://saladofuturo.vercel.app/authorize?client=${base64String}`;
+                resultContainer.classList.remove('hidden');
+                
+                resultContainer.scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            copyBtn.addEventListener('click', function() {
+                const codeToCopy = resultCode.textContent;
+                
+                navigator.clipboard.writeText(codeToCopy).then(() => {
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = 'Copiado!';
+                    
+                    setTimeout(() => {
+                        copyBtn.textContent = originalText;
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Erro ao copiar: ', err);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
