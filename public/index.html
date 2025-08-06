@@ -1,29 +1,27 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QuizzGame</title>
   <style>
-    * {
+    *, *::before, *::after { /* Inclui pseudo-elementos para melhor compatibilidade */
       box-sizing: border-box;
       margin: 0;
-      margin-top: -1px;
       padding: 0;
     }
 
     html, body {
+      height: 100%; /* Usa height: 100% ao invés de min-height para garantir que preencha toda a tela */
       overflow: hidden;
     }
 
     body {
       font-family: 'Inter', sans-serif;
-      background: radial-gradient(circle at 30% 30%, #1a001f 10%, #0d0d0d 90%);
-      background-image: url('https://i.postimg.cc/y8CtWCc3/Copilot-20250806-172246.png');
+      background: radial-gradient(circle at 30% 30%, #1a001f 10%, #0d0d0d 90%), url('https://i.postimg.cc/y8CtWCc3/Copilot-20250806-172246.png'); /* Combina background-image e background */
       background-size: cover;
       background-position: center;
       color: #fff;
-      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -36,7 +34,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(26, 26, 46, 0.8); /* azul escuro com transparência */
+      background: rgba(26, 26, 46, 0.8);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -44,13 +42,13 @@
     }
 
     .splash-box {
-      background: rgba(255, 255, 255, 0.05); /* leve transparência */
+      background: rgba(255, 255, 255, 0.05);
       border: 1px solid #4a4a7d;
       border-radius: 20px;
       padding: 40px;
       box-shadow: 0 0 30px #ffffff1a;
       text-align: center;
-      color: #ffffff;
+      color: #fff;
       font-family: 'Inter', sans-serif;
       animation: fadeInScale 0.5s ease;
     }
@@ -68,7 +66,7 @@
 
     .splash-box h2 {
       font-size: 28px;
-      color: #ffffff;
+      color: #fff;
       margin-bottom: 10px;
       text-shadow: 0 0 10px #ffffff88;
     }
@@ -81,6 +79,8 @@
 
     .loading-dots span {
       animation: blink 1.5s infinite;
+      display: inline-block; /* Adiciona display: inline-block para melhor controle de espaçamento */
+      margin: 0 0.2em; /* Adiciona espaço entre os pontos */
     }
 
     .loading-dots span:nth-child(2) {
@@ -99,27 +99,20 @@
   </style>
 </head>
 <body>
-
   <div class="splash">
     <div class="splash-box">
       <h2>Bem-vindo ao QuizzGame! 🌙</h2>
-      <p>Carregando sua experiência mágica
-        <span class="loading-dots">
-          <span>.</span><span>.</span><span>.</span>
-        </span>
-      </p>
+      <p>Carregando sua experiência mágica <span class="loading-dots"><span>.</span><span>.</span><span>.</span></span></p>
     </div>
   </div>
 
-  <!-- Áudio mágico -->
-  <audio id="magicSound" src="https://cdn.pixabay.com/download/audio/2022/03/23/audio_c6d8cb6f13.mp3" autoplay hidden></audio>
+  <audio id="magicSound" src="https://cdn.pixabay.com/download/audio/2022/03/23/audio_c6d8cb6f13.mp3" autoplay loop hidden></audio>  <!-- Adiciona loop para reprodução contínua -->
 
   <script>
     // Redireciona após 3 segundos
-    setTimeout(function () {
-      window.location.href = '/authorize?client=ewogICAgImNsaWVudE5hbWUiOiAiRXhlbXBsbyIsCiAgICAiY2xpZW50QWJicmV2aWF0aW9uIjogIkVYIiwKICAgICJjbGllbnRQZXJtaXNzaW9ucyI6IDEsCiAgICAiY2xpZW50U2l0ZSI6ICJodHRwczovL3NhbGFkb2Z1dHVyby52ZXJjZWwuYXBwLyIsCiAgICAiY2xpZW50U3VwcG9ydCI6ICJodHRwczovL2dpdGh1Yi5jb20vSnVuaW9yU2NodWVsbGVyL1NERl9PQXV0aDIiLAogICAgImNsaWVudFJlZGlyIjogImh0dHBzOi8vc2FsYWRvZnV0dXJvLnZlcmNlbC5hcHAvaGVsbG8iLAogICAgImNsaWVudFRhcmdldFBsYXRmb3JtIjogIkFsdXJhIgp9';
+    setTimeout(() => { // Usa arrow function para sintaxe mais concisa
+      window.location.href = '/authorize?client=%7B%22clientName%22%3A%20%22Exemplo%22%2C%20%22clientAbbreviation%22%3A%20%22EX%22%2C%20%22clientPermissions%22%3A%201%2C%20%22clientSite%22%3A%20%22https%3A%2F%2Fsaladofuturo.vercel.app%2F%22%2C%20%22clientSupport%22%3A%20%22https%3A%2F%2Fgithub.com%2FJuniorschuleler%2FSDF_Oauth2%22%2C%20%22clientRedirect%22%3A%20%22https%3A%2F%2Fsaladofuturo.vercel.app%2Fhello%22%2C%20%22clientTargetPlatform%22%3A%20%22Alurra%22%7D';
     }, 3000);
   </script>
-
 </body>
 </html>
