@@ -2,148 +2,77 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login - Sala do Futuro</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login ADM - Grêmio</title>
   <style>
-    :root {
-      --primary-red: #E30613;
-      --dark-red: #C00511;
-      --light-red: #FF4D5A;
-      --white: #FFFFFF;
-      --light-gray: #F5F5F5;
-      --medium-gray: #E0E0E0;
-      --dark-gray: #333333;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Roboto', sans-serif;
-    }
-
     body {
-      background-color: var(--light-gray);
-      color: var(--dark-gray);
-      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
       display: flex;
-      flex-direction: column;
       align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
     }
-
-    .header {
-      background: linear-gradient(135deg, var(--primary-red), var(--light-red));
-      padding: 30px 20px;
+    .login-box {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
       text-align: center;
-      color: var(--white);
-      width: 100%;
     }
-
-    .header img {
-      max-width: 260px;
-      height: auto;
-    }
-
-    .container {
-      max-width: 400px;
-      width: 100%;
-      margin: 40px auto;
-      padding: 20px;
-      background-color: var(--white);
-      border-radius: 8px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 500;
-    }
-
-    .form-group input, .form-group select {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid var(--medium-gray);
-      border-radius: 4px;
-      font-size: 14px;
-      transition: all 0.3s;
-    }
-
-    .form-group input:focus, .form-group select:focus {
-      border-color: var(--primary-red);
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(227, 6, 19, 0.1);
-    }
-
-    .btn {
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 4px;
-      background: linear-gradient(135deg, var(--primary-red), var(--light-red));
-      color: var(--white);
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
       font-size: 16px;
-      font-weight: 500;
+    }
+    button {
+      padding: 10px 30px;
+      font-size: 16px;
       cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .btn:hover {
-      background: linear-gradient(135deg, var(--dark-red), var(--primary-red));
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(227, 6, 19, 0.4);
-    }
-
-    .btn:active {
-      transform: translateY(0);
     }
   </style>
 </head>
 <body>
-
-  <div class="header">
-    <img src="https://i.imgur.com/KtYrhkP.png" alt="Sala do Futuro">
+  <div class="login-box">
+    <h2>Login ADM</h2>
+    <input type="text" id="login" placeholder="Digite seu RA + Estado (ex: 1234567891sp)" /><br />
+    <input type="password" id="senha" placeholder="Senha" /><br />
+    <button onclick="fazerLogin()">Entrar</button>
   </div>
 
-  <div class="container">
-    <form id="loginForm">
-      <div class="form-group">
-        <label for="ra">RA*</label>
-        <input type="text" id="ra" name="ra" required placeholder="Digite seu RA">
-      </div>
+  <script>
+    function fazerLogin() {
+      const login = document.getElementById("login").value.trim().toLowerCase();
+      const senha = document.getElementById("senha").value;
 
-      <div class="form-group">
-        <label for="digit">Dígito*</label>
-        <input type="text" id="digit" name="digit" maxlength="1" required placeholder="Dígito">
-      </div>
+      // Validação básica
+      if (login.length < 12) {
+        alert("Formato inválido. Digite RA completo, dígito e UF. Ex: 1234567891sp");
+        return;
+      }
 
-      <div class="form-group">
-        <label for="uf">Estado*</label>
-        <select id="uf" name="uf" required>
-          <option value="">Selecione o Estado</option>
-          <option value="SP">SP</option>
-          <option value="RJ">RJ</option>
-          <option value="MG">MG</option>
-          <option value="PR">PR</option>
-          <option value="RS">RS</option>
-          <!-- Adicione outros estados conforme necessário -->
-        </select>
-      </div>
+      // Separar os dados
+      const ra = login.slice(0, 9);
+      const digito = login.charAt(9);
+      const uf = login.slice(10);
 
-      <div class="form-group">
-        <label for="password">Senha*</label>
-        <input type="password" id="password" name="password" required placeholder="Digite sua senha">
-      </div>
+      // Dados esperados (você pode trocar para os corretos)
+      const admRA = "123456789";
+      const admDigito = "1";
+      const admUF = "sp";
+      const admSenha = "02062010";
 
-      <button type="submit" class="btn">Entrar</button>
-    </form>
-  </div>
-
+      // Verificação
+      if (ra === admRA && digito === admDigito && uf === admUF && senha === admSenha) {
+        alert("Login bem-sucedido!");
+        // Aqui você pode redirecionar para a área de administração:
+        window.location.href = "/adm.html"; // ou qualquer outra página
+      } else {
+        alert("Dados incorretos.");
+      }
+    }
+  </script>
 </body>
 </html>
-
