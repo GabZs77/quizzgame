@@ -1,7 +1,142 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <!-- Splash de boas-vindas -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gabaritus</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      margin-top: -1px;
+      padding: 0;
+    }
+
+    html, body {
+      overflow: hidden;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at 30% 30%, #1a001f 10%, #0d0d0d 90%);
+      background-image: url('https://i.imgur.com/mzJaxax.png');
+      background-size: cover;
+      color: #fff;
+      min-height: 50vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .splash {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 30% 30%, #1a001f 10%, #0d0d0d 90%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      animation: hideSplash 0.5s ease 3s forwards;
+    }
+
+    @keyframes hideSplash {
+      to {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+
+    .splash-box {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid #701ca7;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 0 30px #8c2bff66;
+      text-align: center;
+      color: #d4a6f7;
+      font-family: 'Inter', sans-serif;
+      animation: fadeInScale 0.5s ease;
+    }
+
+    @keyframes fadeInScale {
+      from {
+        transform: scale(0.9);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .splash-box h2 {
+      font-size: 28px;
+      color: #c43aff;
+      margin-bottom: 10px;
+      text-shadow: 0 0 10px #932fff;
+    }
+
+    .logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .logo img {
+      width: 70px;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.3s ease;
+    }
+
+    .btn svg {
+      vertical-align: middle;
+    }
+
+    .btn-primary {
+      background-color: #8c2bff;
+    }
+
+    .btn-primary:hover {
+      background-color: #6b1fd1;
+    }
+
+    .btn-secondary {
+      background-color: #444;
+    }
+
+    .btn-secondary:hover {
+      background-color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Splash de boas-vindas -->
   <div class="splash">
     <div class="splash-box">
       <h2>Bem-vindo ao Gabaritus! 🌙</h2>
@@ -9,37 +144,42 @@
     </div>
   </div>
 
+  <!-- Logo -->
   <div class="logo">
     <img src="https://i.imgur.com/IKIFKQV.png" alt="MoonScripts logo" />
   </div>
-        <div class="action-buttons">
-            <a href="#" class="btn btn-primary" id="exampleBtn">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                    <path d="M7 5h10v2h2V3c0-1.1-.9-1.99-2-1.99L7 1c-1.1 0-2 .9-2 2v4h2V5zm8.41 11.59L20 12l-4.59-4.59L14 8.83 17.17 12 14 15.17l1.41 1.42zM10 15.17L6.83 12 10 8.83 8.59 7.41 4 12l4.59 4.59L10 15.17zM17 19H7v-2H5v4c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-4h-2v2z"/>
-                </svg>
-                Ver Exemplo
-            </a>
-            
-            <a href="#" class="btn btn-secondary" id="createAuthBtn">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                    <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
-                </svg>
-                Criar Autorização
-            </a>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('exampleBtn').addEventListener('click', function(e) {
-                e.preventDefault();
-                window.location.href = '/authorize?client=ewogICAgImNsaWVudE5hbWUiOiAiRXhlbXBsbyIsCiAgICAiY2xpZW50QWJicmV2aWF0aW9uIjogIkVYIiwKICAgICJjbGllbnRQZXJtaXNzaW9ucyI6IDEsCiAgICAiY2xpZW50U2l0ZSI6ICJodHRwczovL3NhbGFkb2Z1dHVyby52ZXJjZWwuYXBwLyIsCiAgICAiY2xpZW50U3VwcG9ydCI6ICJodHRwczovL2dpdGh1Yi5jb20vSnVuaW9yU2NodWVsbGVyL1NERl9PQXV0aDIiLAogICAgImNsaWVudFJlZGlyIjogImh0dHBzOi8vc2FsYWRvZnV0dXJvLnZlcmNlbC5hcHAvaGVsbG8iLAogICAgImNsaWVudFRhcmdldFBsYXRmb3JtIjogIkFsdXJhIgp9';
-            });
-            
-            document.getElementById('createAuthBtn').addEventListener('click', function(e) {
-                e.preventDefault();
-                window.location.href = '/build';
-            });
-        });
-    </script>
+  <!-- Botões -->
+  <div class="action-buttons">
+    <a href="#" class="btn btn-primary" id="exampleBtn">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+        <path d="M7 5h10v2h2V3c0-1.1-.9-1.99-2-1.99L7 1c-1.1 0-2 .9-2 2v4h2V5zm8.41 11.59L20 12l-4.59-4.59L14 8.83 17.17 12 14 15.17l1.41 1.42zM10 15.17L6.83 12 10 8.83 8.59 7.41 4 12l4.59 4.59L10 15.17zM17 19H7v-2H5v4c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-4h-2v2z"/>
+      </svg>
+      Ver Exemplo
+    </a>
+
+    <a href="#" class="btn btn-secondary" id="createAuthBtn">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+        <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+      </svg>
+      Criar Autorização
+    </a>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('exampleBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        window.location.href = '/authorize?client=ewogICAgImNsaWVudE5hbWUiOiAiRXhlbXBsbyIsCiAgICAiY2xpZW50QWJicmV2aWF0aW9uIjogIkVYIiwKICAgICJjbGllbnRQZXJtaXNzaW9ucyI6IDEsCiAgICAiY2xpZW50U2l0ZSI6ICJodHRwczovL3NhbGFkb2Z1dHVyby52ZXJjZWwuYXBwLyIsCiAgICAiY2xpZW50U3VwcG9ydCI6ICJodHRwczovL2dpdGh1Yi5jb20vSnVuaW9yU2NodWVsbGVyL1NERl9PQXV0aDIiLAogICAgImNsaWVudFJlZGlyIjogImh0dHBzOi8vc2FsYWRvZnV0dXJvLnZlcmNlbC5hcHAvaGVsbG8iLAogICAgImNsaWVudFRhcmdldFBsYXRmb3JtIjogIkFsdXJhIgp9';
+      });
+
+      document.getElementById('createAuthBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        window.location.href = '/build';
+      });
+    });
+  </script>
+
 </body>
 </html>
-
