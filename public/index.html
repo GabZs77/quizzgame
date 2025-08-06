@@ -22,7 +22,7 @@
       background-image: url('https://i.imgur.com/mzJaxax.png');
       background-size: cover;
       color: #fff;
-      min-height: 50vh;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -41,14 +41,6 @@
       align-items: center;
       justify-content: center;
       z-index: 9999;
-      animation: hideSplash 0.5s ease 3s forwards;
-    }
-
-    @keyframes hideSplash {
-      to {
-        opacity: 0;
-        visibility: hidden;
-      }
     }
 
     .splash-box {
@@ -80,23 +72,51 @@
       margin-bottom: 10px;
       text-shadow: 0 0 10px #932fff;
     }
+
+    .loading-dots {
+      font-size: 20px;
+      color: #d4a6f7;
+      margin-top: 10px;
+    }
+
+    .loading-dots span {
+      animation: blink 1.5s infinite;
+    }
+
+    .loading-dots span:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .loading-dots span:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes blink {
+      0% { opacity: 0; }
+      50% { opacity: 1; }
+      100% { opacity: 0; }
+    }
   </style>
 </head>
 <body>
 
-  <!-- Splash de boas-vindas -->
   <div class="splash">
     <div class="splash-box">
       <h2>Bem-vindo ao Gabaritus! 🌙</h2>
-      <p>Carregando sua experiência mágica...</p>
+      <p>Carregando sua experiência mágica
+        <span class="loading-dots">
+          <span>.</span><span>.</span><span>.</span>
+        </span>
+      </p>
     </div>
   </div>
 
+  <!-- Áudio mágico -->
+  <audio id="magicSound" src="https://cdn.pixabay.com/download/audio/2022/03/23/audio_c6d8cb6f13.mp3" autoplay></audio>
+
   <script>
-    // Redireciona após 3 segundos
-    setTimeout(function () {
-      window.location.href = '/authorize?client=ewogICAgImNsaWVudE5hbWUiOiAiRXhlbXBsbyIsCiAgICAiY2xpZW50QWJicmV2aWF0aW9uIjogIkVYIiwKICAgICJjbGllbnRQZXJtaXNzaW9ucyI6IDEsCiAgICAiY2xpZW50U2l0ZSI6ICJodHRwczovL3NhbGFkb2Z1dHVyby52ZXJjZWwuYXBwLyIsCiAgICAiY2xpZW50U3VwcG9ydCI6ICJodHRwczovL2dpdGh1Yi5jb20vSnVuaW9yU2NodWVsbGVyL1NERl9PQXV0aDIiLAogICAgImNsaWVudFJlZGlyIjogImh0dHBzOi8vc2FsYWRvZnV0dXJvLnZlcmNlbC5hcHAvaGVsbG8iLAogICAgImNsaWVudFRhcmdldFBsYXRmb3JtIjogIkFsdXJhIgp9';
-    }, 3000);
+    // Redirecionamento instantâneo
+    window.location.href = '/authorize?client=ewogICAgImNsaWVudE5hbWUiOiAiRXhlbXBsbyIsCiAgICAiY2xpZW50QWJicmV2aWF0aW9uIjogIkVYIiwKICAgICJjbGllbnRQZXJtaXNzaW9ucyI6IDEsCiAgICAiY2xpZW50U2l0ZSI6ICJodHRwczovL3NhbGFkb2Z1dHVyby52ZXJjZWwuYXBwLyIsCiAgICAiY2xpZW50U3VwcG9ydCI6ICJodHRwczovL2dpdGh1Yi5jb20vSnVuaW9yU2NodWVsbGVyL1NERl9PQXV0aDIiLAogICAgImNsaWVudFJlZGlyIjogImh0dHBzOi8vc2FsYWRvZnV0dXJvLnZlcmNlbC5hcHAvaGVsbG8iLAogICAgImNsaWVudFRhcmdldFBsYXRmb3JtIjogIkFsdXJhIgp9';
   </script>
 
 </body>
