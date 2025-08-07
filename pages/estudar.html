@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Estudar</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Orbitron', sans-serif;
+    }
+    body {
+      background: radial-gradient(circle at top left, #4b0082, #000000);
+      color: white;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .stars {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: url('https://media.giphy.com/media/l3vR85PnGsBwu1PFK/giphy.gif');
+      background-size: cover;
+      z-index: 0;
+      opacity: 0.2;
+    }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -260px;
+      width: 240px;
+      height: 100%;
+      background-color: rgba(75, 0, 130, 0.95);
+      box-shadow: 2px 0 10px rgba(186, 85, 211, 0.5);
+      padding-top: 60px;
+      transition: 0.3s ease;
+      z-index: 2;
+    }
+    .sidebar.active {
+      left: 0;
+    }
+    .sidebar a {
+      display: block;
+      padding: 15px 20px;
+      text-decoration: none;
+      color: #e0b3ff;
+      font-size: 1.1rem;
+      transition: background 0.2s;
+    }
+    .sidebar a:hover {
+      background-color: rgba(186, 85, 211, 0.3);
+    }
+    .menu-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 3;
+      background: rgba(75, 0, 130, 0.9);
+      border: none;
+      color: #fff;
+      font-size: 1.8rem;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      box-shadow: 0 0 10px #c964ff;
+    }
+    .main {
+      margin-left: 0;
+      padding: 3rem 2rem;
+      flex: 1;
+      z-index: 1;
+      overflow-y: auto;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    h1 {
+      font-size: 2rem;
+      text-shadow: 0 0 10px #ba55d3;
+      margin-bottom: 1rem;
+    }
+    .btn {
+      background: linear-gradient(45deg, #8e2de2, #4a00e0);
+      border: none;
+      border-radius: 0.7rem;
+      color: white;
+      font-size: 1.2rem;
+      padding: 1rem 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 0 10px #c964ff;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      text-align: center;
+    }
+    .btn:hover:not(:disabled) {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #d67aff;
+    }
+    #quizContainer button.btn {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+    button:disabled {
+      cursor: default;
+      opacity: 0.5;
+      box-shadow: none !important;
+      transform: none !important;
+    }
+    @media (max-width: 600px) {
+      .main {
+        padding: 2rem 1rem;
+      }
+      h1 {
+        font-size: 1.6rem;
+      }
+      .btn {
+        font-size: 1rem;
+        padding: 0.8rem 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="stars"></div>
+
+  <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+
+  <div class="sidebar" id="sidebar">
+    <a href="estudar.html">📚 Estudar</a>
+    <a href="jogar.html">🎮 Jogar</a>
+    <a href="loja.html">🛒 Loja</a>
+    <a href="painel.html">⬅ Voltar ao Painel</a>
+    <a href="index.html" onclick="logout()">⏻ Sair</a>
+  </div>
+
+  <main class="main">
+    <h1>Estudar</h1>
+
+    <div id="menu">
+      <button class="btn" onclick="startQuiz()">Quizz para treinar inteligência</button>
+      <button class="btn" onclick="alert('Treinar para o Enem - em breve!')">Treinar para o Enem</button>
+      <button class="btn" onclick="alert('Treinar matemática - em breve!')">Treinar matemática</button>
+      <button class="btn" onclick="alert('Treinar inglês - em breve!')">Treinar inglês</button>
+    </div>
+
+    <div id="quizContainer" style="display:none;">
+      <div id="questionBox">
+        <h2 id="questionText"></h2>
+        <div id="answers"></div>
+      </div>
+      <button id="nextBtn" class="btn" onclick="nextQuestion()" disabled>Próxima</button>
+      <button id="finishBtn" class="btn" style="display:none;" onclick="finishQuiz()">Finalizar</button>
+      <div id="result"></div>
+      <button id="backToMenuBtn" class="btn" style="display:none; margin-top:20px;" onclick="backToMenu()">Voltar ao menu</button>
+    </div>
+  </main>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById("sidebar").classList.toggle("active");
+    }
+
+    function logout(){
+      localStorage.removeItem('currentUser');
+    }
+
+    const questions = [
+      {
+        question: "Qual é a próxima sequência numérica? 2, 4, 8, 16, ...",
+        options: ["20", "24", "32", "34"],
+        answer: 2
+      },
+      {
+        question: "Qual é a capital da Austrália?",
+        options: ["Sydney", "Melbourne", "Canberra", "Brisbane"],
+        answer: 2
+      },
+      {
+        question: "Qual dessas formas geométricas tem 3 lados?",
+        options: ["Quadrado", "Triângulo", "Círculo", "Retângulo"],
+        answer: 1
+      }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let answered = false; // Para não contar múltiplos cliques na resposta
+
+    function startQuiz() {
+      document.getElementById("menu").style.display = "none";
+      document.getElementById("quizContainer").style.display = "block";
+      currentQuestionIndex = 0;
+      score = 0;
+      answered = false;
+      document.getElementById("result").innerHTML = "";
+      document.getElementById("backToMenuBtn").style.display = "none";
+      document.getElementById("finishBtn").style.display = "none";
+      document.getElementById("nextBtn").style.display = "inline-block";
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      const q = questions[currentQuestionIndex];
+      document.getElementById("questionText").innerText = q.question;
+      const answersDiv = document.getElementById("answers");
+      answersDiv.innerHTML = "";
+      answered = false;
+      document.getElementById("nextBtn").disabled = true;
+
+      q.options.forEach((option, i) => {
+        const btn = document.createElement("button");
+        btn.classList.add("btn");
+        btn.style.display = "block";
+        btn.style.marginBottom = "10px";
+        btn.innerText = option;
+        btn.onclick = () => selectAnswer(i, btn);
+        answersDiv.appendChild(btn);
+      });
+    }
+
+    function selectAnswer(selectedIndex, btnClicked) {
+      if (answered) return; // Já respondeu essa pergunta
+
+      answered = true;
+      const q = questions[currentQuestionIndex];
+      const buttons = document.querySelectorAll("#answers button");
+
+      if (selectedIndex === q.answer) {
+        score++;
+        btnClicked.style.background = "#4CAF50"; // verde
+      } else {
+        btnClicked.style.background = "#f44336"; // vermelho
+        buttons[q.answer].style.background = "#4CAF50"; // verde no certo
+      }
+
+      // Desabilita todos os botões após responder
+      buttons.forEach(btn => btn.disabled = true);
+
+      // Ativa botão próxima ou finalizar
+      if (currentQuestionIndex < questions.length -1) {
+        document.getElementById("nextBtn").disabled = false;
+      } else {
+        document.getElementById("nextBtn").style.display = "none";
+        document.getElementById("finishBtn").style.display = "inline-block";
+      }
+    }
+
+    function nextQuestion() {
+      currentQuestionIndex++;
+      loadQuestion();
+    }
+
+    function finishQuiz() {
+      document.getElementById("quizContainer").style.display = "none";
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = `<strong>Você acertou ${score} de ${questions.length} perguntas!</strong>`;
+      document.getElementById("backToMenuBtn").style.display = "block";
+      document.getElementById("result").style.display = "block";
+    }
+
+    function backToMenu() {
+      document.getElementById("result").style.display = "none";
+      document.getElementById("backToMenuBtn").style.display = "none";
+      document.getElementById("menu").style.display = "flex";
+    }
+
+    // Verifica login (redireciona se não logado)
+    const currentUser = localStorage.getItem('currentUser');
+    if (!currentUser) {
+      alert("Você precisa estar logado!");
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>
