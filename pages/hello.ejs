@@ -1,121 +1,118 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuizzGame - Olá!</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-red: #E30613;
-            --dark-red: #C00511;
-            --light-red: #FF4D5A;
-            --white: #FFFFFF;
-            --light-gray: #F5F5F5;
-            --medium-gray: #E0E0E0;
-            --dark-gray: #333333;
-            --text-gray: #666666;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuizzGame - Olá!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-red: #E30613;
+      --dark-red: #C00511;
+      --light-red: #FF4D5A;
+      --white: #FFFFFF;
+      --light-gray: #F5F5F5;
+      --medium-gray: #E0E0E0;
+      --dark-gray: #333333;
+      --text-gray: #666666;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Roboto', sans-serif;
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+    }
 
-        body {
-            background-color: var(--light-gray);
-            color: var(--dark-gray);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+    body {
+      background-color: var(--light-gray);
+      color: var(--dark-gray);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-        .header {
-            background: linear-gradient(135deg, var(--primary-red), var(--light-red));
-            padding: 30px 20px;
-            text-align: center;
-            color: var(--white);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
+    .header {
+      background: linear-gradient(135deg, var(--primary-red), var(--light-red));
+      padding: 30px 20px;
+      position: relative;
+      color: var(--white);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
 
-        .header img {
-            max-width: 260px;
-            height: auto;
-        }
+    .header img {
+      max-width: 260px;
+      height: auto;
+    }
 
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
-            text-align: center;
-        }
+    .logout-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 10px 18px;
+      font-size: 14px;
+      border-radius: 4px;
+      font-weight: 500;
+      background: linear-gradient(135deg, var(--primary-red), var(--light-red));
+      color: var(--white);
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(227, 6, 19, 0.3);
+    }
 
-        .greeting-box {
-            background-color: var(--white);
-            border-radius: 8px;
-            padding: 40px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            max-width: 500px;
-            width: 100%;
-            margin-bottom: 30px;
-        }
+    .logout-btn:hover {
+      background: linear-gradient(135deg, var(--dark-red), var(--primary-red));
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(227, 6, 19, 0.4);
+    }
 
-        .greeting-box h2 {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: var(--dark-gray);
-        }
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      text-align: center;
+    }
 
-        .greeting-box p {
-            font-size: 18px;
-            color: var(--text-gray);
-            margin-bottom: 30px;
-        }
+    .greeting-box {
+      background-color: var(--white);
+      border-radius: 8px;
+      padding: 40px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      max-width: 500px;
+      width: 100%;
+      margin-bottom: 30px;
+    }
 
-        .btn {
-            padding: 12px 24px;
-            border-radius: 4px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
-            font-size: 16px;
-            text-decoration: none;
-            display: inline-block;
-        }
+    .greeting-box h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: var(--dark-gray);
+    }
 
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary-red), var(--light-red));
-            color: var(--white);
-            box-shadow: 0 4px 12px rgba(227, 6, 19, 0.3);
-        }
-
-        .btn-primary:hover {
-            background: linear-gradient(135deg, var(--dark-red), var(--primary-red));
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(227, 6, 19, 0.4);
-        }
-
-        .btn-primary:active {
-            transform: translateY(0);
-        }
-    </style>
+    .greeting-box p {
+      font-size: 18px;
+      color: var(--text-gray);
+      margin-bottom: 30px;
+    }
+  </style>
 </head>
 <body>
-    <div class="header">
-        <img src="https://i.imgur.com/KtYrhkP.png" alt="Sala do Futuro">
-    </div>
 
-    <div class="main-content">
-        <div class="greeting-box">
-            <h2>Olá, <strong><%= name %></strong>!</h2>
-            <a href="./" class="btn btn-primary">Voltar</a>
-        </div>
+  <div class="header">
+    <img src="https://i.imgur.com/KtYrhkP.png" alt="Sala do Futuro">
+    <a href="./" class="logout-btn">Sair do Login</a>
+  </div>
+
+  <div class="main-content">
+    <div class="greeting-box">
+      <h2>Olá, <strong><%= name %></strong>!</h2>
     </div>
+  </div>
+
 </body>
 </html>
