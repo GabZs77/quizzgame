@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bem-vindo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-red: #E30613;
+      --dark-red: #C00511;
+      --light-red: #FF4D5A;
+      --white: #FFFFFF;
+      --light-gray: #F5F5F5;
+      --medium-gray: #E0E0E0;
+      --dark-gray: #333333;
+      --text-gray: #666666;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    body {
+      background: var(--light-gray);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: var(--dark-gray);
+    }
+
+    .welcome-box {
+      background-color: var(--white);
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      padding: 40px 30px;
+      max-width: 420px;
+      width: 100%;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .welcome-box img {
+      width: 120px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 24px;
+      color: var(--primary-red);
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 16px;
+      color: var(--text-gray);
+      margin-bottom: 25px;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 500;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--primary-red), var(--light-red));
+      color: var(--white);
+      box-shadow: 0 4px 12px rgba(227, 6, 19, 0.3);
+      transition: transform 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      background: linear-gradient(135deg, var(--dark-red), var(--primary-red));
+    }
+
+    .footer {
+      margin-top: 30px;
+      font-size: 12px;
+      color: var(--text-gray);
+    }
+
+    .footer a {
+      color: var(--primary-red);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="welcome-box">
+    <img src="https://i.imgur.com/KtYrhkP.png" alt="Logo">
+    <h1>Bem-vindo(a)!</h1>
+    <p>Você entrou com sucesso na plataforma <strong>Sala do Futuro</strong>.</p>
+    <button class="btn" onclick="window.location.href='https://saladofuturo.educacao.sp.gov.br/'">Acessar Sala do Futuro</button>
+
+    <div class="footer">
+      <p>Precisa de ajuda? <a href="#">Fale com o suporte</a></p>
+    </div>
+  </div>
+
+</body>
+</html>
