@@ -493,7 +493,7 @@
                         location.href = 'https://saladofuturo.educacao.sp.gov.br/';
                     }
 
-                    location.href = decodeURIComponent(new URL(targetRedir));
+                    window.location.href = '/welcome.html';
                 } else {
                     showError('Credenciais inválidas. Por favor, tente novamente.');
                     loginBtn.disabled = false;
