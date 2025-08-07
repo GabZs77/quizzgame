@@ -1,121 +1,144 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sala do Futuro OAuth2 - Olá!</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-red: #E30613;
-            --dark-red: #C00511;
-            --light-red: #FF4D5A;
-            --white: #FFFFFF;
-            --light-gray: #F5F5F5;
-            --medium-gray: #E0E0E0;
-            --dark-gray: #333333;
-            --text-gray: #666666;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bem-vindo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Roboto', sans-serif;
-        }
+  <style>
+    :root {
+      --primary-red: #E30613;
+      --dark-red: #C00511;
+      --light-red: #FF4D5A;
+      --white: #FFFFFF;
+      --light-gray: #F5F5F5;
+      --medium-gray: #E0E0E0;
+      --dark-gray: #333333;
+      --text-gray: #666666;
+    }
 
-        body {
-            background-color: var(--light-gray);
-            color: var(--dark-gray);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+    }
 
-        .header {
-            background: linear-gradient(135deg, var(--primary-red), var(--light-red));
-            padding: 30px 20px;
-            text-align: center;
-            color: var(--white);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
+    body {
+      background: var(--light-gray);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: var(--dark-gray);
+    }
 
-        .header img {
-            max-width: 260px;
-            height: auto;
-        }
+    .welcome-box {
+      background-color: var(--white);
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      padding: 40px 30px;
+      max-width: 420px;
+      width: 100%;
+      animation: fadeIn 0.5s ease-out;
+    }
 
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
-            text-align: center;
-        }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-        .greeting-box {
-            background-color: var(--white);
-            border-radius: 8px;
-            padding: 40px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            max-width: 500px;
-            width: 100%;
-            margin-bottom: 30px;
-        }
+    .welcome-box img {
+      width: 120px;
+      margin-bottom: 20px;
+    }
 
-        .greeting-box h2 {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: var(--dark-gray);
-        }
+    h1 {
+      font-size: 24px;
+      color: var(--primary-red);
+      margin-bottom: 10px;
+    }
 
-        .greeting-box p {
-            font-size: 18px;
-            color: var(--text-gray);
-            margin-bottom: 30px;
-        }
+    h2 {
+      font-size: 20px;
+      color: var(--dark-gray);
+      margin-bottom: 5px;
+    }
 
-        .btn {
-            padding: 12px 24px;
-            border-radius: 4px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
-            font-size: 16px;
-            text-decoration: none;
-            display: inline-block;
-        }
+    p {
+      font-size: 15px;
+      color: var(--text-gray);
+      margin-bottom: 25px;
+    }
 
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary-red), var(--light-red));
-            color: var(--white);
-            box-shadow: 0 4px 12px rgba(227, 6, 19, 0.3);
-        }
+    .btn {
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 500;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--primary-red), var(--light-red));
+      color: var(--white);
+      box-shadow: 0 4px 12px rgba(227, 6, 19, 0.3);
+      transition: transform 0.2s ease;
+    }
 
-        .btn-primary:hover {
-            background: linear-gradient(135deg, var(--dark-red), var(--primary-red));
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(227, 6, 19, 0.4);
-        }
+    .btn:hover {
+      transform: translateY(-2px);
+      background: linear-gradient(135deg, var(--dark-red), var(--primary-red));
+    }
 
-        .btn-primary:active {
-            transform: translateY(0);
-        }
-    </style>
+    .footer {
+      margin-top: 30px;
+      font-size: 12px;
+      color: var(--text-gray);
+    }
+
+    .footer a {
+      color: var(--primary-red);
+      text-decoration: none;
+    }
+  </style>
 </head>
 <body>
-    <div class="header">
-        <img src="https://i.imgur.com/KtYrhkP.png" alt="Sala do Futuro">
-    </div>
 
-    <div class="main-content">
-        <div class="greeting-box">
-            <h2>Olá, <strong><%= name %></strong>!</h2>
-            <a href="./" class="btn btn-primary">Sair</a>
-        </div>
+  <div class="welcome-box">
+    <img src="https://i.imgur.com/KtYrhkP.png" alt="Logo">
+    <h1>Bem-vindo(a)!</h1>
+    <h2 id="user-name">Carregando...</h2>
+    <p id="user-email"></p>
+
+    <button class="btn" id="access-button">Acessar Sala do Futuro</button>
+
+    <div class="footer">
+      <p>Precisa de ajuda? <a href="#">Fale com o suporte</a></p>
     </div>
+  </div>
+
+  <script>
+    // Lê os parâmetros da URL
+    const params = new URLSearchParams(window.location.search);
+    const name = params.get('name') || 'Usuário';
+    const email = params.get('email') || '';
+
+    // Mostra o nome e e-mail
+    document.getElementById('user-name').textContent = name;
+    document.getElementById('user-email').textContent = email;
+
+    // Redireciona ao clicar no botão
+    document.getElementById('access-button').addEventListener('click', () => {
+      window.location.href = 'https://saladofuturo.educacao.sp.gov.br/';
+    });
+  </script>
+
 </body>
 </html>
