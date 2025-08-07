@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sala do Futuro OAuth2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-red: #E30613;
+            --dark-red: #C00511;
+            --light-red: #FF4D5A;
+            --white: #FFFFFF;
+            --light-gray: #F5F5F5;
+            --medium-gray: #E0E0E0;
+            --dark-gray: #333333;
+            --text-gray: #666666;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--dark-gray);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            padding: 20px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .authorization-box, .login-box {
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            animation: fadeIn 0.5s ease-out;
+            transform-origin: center;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .logo-container {
+            background: linear-gradient(135deg, var(--primary-red), var(--light-red));
+            padding: 30px 20px;
+            text-align: center;
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-container h1 {
+            font-weight: 700;
+            font-size: 24px;
+            letter-spacing: 1px;
+            margin-top: 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo-animation {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
+            border-radius: 50%;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: transparent;
+        }
+
+        .logo-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo-animation::before, .logo-animation::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid var(--white);
+            animation: pulse 2s linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.7;
+            }
+            70% {
+                transform: scale(1.3);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1.3);
+                opacity: 0;
+            }
+        }
+
+        .app-info {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        .app-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-red), var(--light-red));
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--white);
+            font-weight: bold;
+            font-size: 20px;
+            margin-right: 15px;
+            box-shadow: 0 4px 8px rgba(227, 6, 19, 0.2);
+        }
+
+        .app-details h2 {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .app-details p {
+            font-size: 14px;
+            color: var(--text-gray);
+        }
+
+        .permissions-list {
+            padding: 20px;
+            list-style: none;
+        }
+
+        .permissions-list li {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            font-size: 14px;
+        }
+
+        .permissions-list svg {
+            margin-right: 10px;
+            color: var(--primary-red);
+        }
+
+        .buttons {
+            display: flex;
+            padding: 0 20px 20px;
+            justify-content: space-between;
+        }
+
+        button {
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 14px;
+        }
+
+        .cancel-btn {
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+        }
+
+        .cancel-btn:hover {
+            background-color: var(--medium-gray);
+        }
+
+        .authorize-btn, .login-btn {
+            background: linear-gradient(135deg, var(--primary-red), var(--light-red));
+            color: var(--white);
+            box-shadow: 0 4px 12px rgba(227, 6, 19, 0.3);
+        }
+
+        .authorize-btn:hover, .login-btn:hover {
+            background: linear-gradient(135deg, var(--dark-red), var(--primary-red));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(227, 6, 19, 0.4);
+        }
+
+        .authorize-btn:active, .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .footer {
+            padding: 15px 20px;
+            background-color: var(--light-gray);
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-gray);
+        }
+
+        .footer a {
+            color: var(--primary-red);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-box h2 {
+            text-align: center;
+            margin: 20px 0;
+            font-weight: 500;
+            color: var(--dark-gray);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 10px;
+            padding: 0 20px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            flex: 1;
+            margin-bottom: 0;
+            padding: 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--dark-gray);
+            font-weight: 500;
+            text-align: left;
+        }
+
+        .form-group.ra {
+            flex: 2; /* Mais espaço para o RA */
+        }
+
+        .form-group.digit {
+            flex: 0.5; /* Menos espaço para o dígito */
+        }
+
+        .form-group.uf {
+            flex: 1;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 4px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .error-message {
+            color: var(--primary-red);
+            font-size: 13px;
+            text-align: center;
+            margin: 10px 20px;
+            min-height: 20px;
+        }
+
+        .login-btn {
+            display: block;
+            width: calc(100% - 40px);
+            margin: 20px auto 0;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="authorization-box" id="authorizationBox">
+            <div class="logo-container">
+                <img src="https://i.imgur.com/KtYrhkP.png" style="width: 260px;">
+            </div>
+            
+            <div class="app-info">
+                <div id="client-abbreviation" class="app-icon"><%= client.clientAbbreviation %></div>
+                <div class="app-details">
+                    <h2 id="client-name"><%= client.clientName %></h2>
+                    <p>solicita permissão para:</p>
+                </div>
+            </div>
+            
+            <ul class="permissions-list">
+                <% const permissions = [
+                    { bit: 1, label: "Acessar suas informações" },
+                    { bit: 2, label: "Acessar suas plataformas" },
+                    { bit: 4, label: "Realizar suas tarefas" },
+                    { bit: 8, label: "Realizar suas redações" },
+                    { bit: 16, label: "Realizar suas provas" },
+                    { bit: 32, label: "Verificar sua presença" },
+                    { bit: 64, label: "Verificar sua agenda" },
+                    { bit: 128, label: "Verificar seu boletim" },
+                    { bit: 256, label: "Acessar suas mensagens" },
+                    { bit: 512, label: "Acessar suas pesquisas" },
+                    { bit: 1024, label: "Realizar pesquisas" }
+                ]; 
+                
+                permissions.forEach(permission => { 
+                    if ((parseInt(client.clientPermissions || 0, 10) & permission.bit) !== 0) { %>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                            </svg>
+                            <span><%= permission.label %></span>
+                        </li>
+                    <% } 
+                }); %>
+            </ul>
+            
+            <div class="buttons">
+                <button class="cancel-btn" id="cancelBtn">Cancelar</button>
+                <button class="authorize-btn" id="authorizeBtn">Autorizar</button>
+            </div>
+            
+            <div class="footer">
+                <p>Não reconhece este aplicativo? <a id="client-site" href="<%= client.clientSite %>">Saiba mais</a></p>
+            </div>
+        </div>
+        
+        <div class="login-box hidden" id="loginBox">
+            <div class="logo-container">
+                <img src="https://i.imgur.com/KtYrhkP.png" style="width: 260px;">
+            </div>
+            
+            <h2>Faça login para continuar</h2>
+            
+            <form id="loginForm">
+                <div class="form-row">
+                    <div class="form-group ra">
+                        <label for="ra">RA</label>
+                        <input type="text" id="ra" name="ra" maxlength="9" placeholder="123456789" required>
+                    </div>
+                    
+                    <div class="form-group digit">
+                        <label for="digit">Dígito</label>
+                        <input type="text" id="digit" name="digit" maxlength="1" placeholder="x" required>
+                    </div>
+                    
+                    <div class="form-group uf">
+                        <label for="uf">UF</label>
+                        <select id="uf" name="uf" required>
+                            <% const ufs = ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO']; 
+                            ufs.forEach(uf => { %>
+                                <option value="<%= uf %>" <%= uf === 'SP' ? 'selected' : '' %>><%= uf %></option>
+                            <% }); %>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group" style="padding: 0 20px;">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" name="password" placeholder="Senha" required>
+                </div>
+
+                <div class="error-message" id="errorMessage"></div>
+                
+                <button type="submit" class="login-btn">Entrar</button>
+            </form>
+            
+            <div class="footer">
+                <p>Problemas para acessar? <a id="client-support" href="<%= client.clientSupport %>">Entre em contato</a></p>
+            </div>
+        </div>
+    </div>
+  
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const authorizationBox = document.getElementById('authorizationBox');
+            const loginBox = document.getElementById('loginBox');
+            const authorizeBtn = document.getElementById('authorizeBtn');
+            const cancelBtn = document.getElementById('cancelBtn'); 
+            const loginForm = document.getElementById('loginForm');
+            const errorMessage = document.getElementById('errorMessage');
+            const ufSelect = document.getElementById('uf');            
+            
+            authorizeBtn.addEventListener('click', function() {
+                authorizationBox.classList.add('hidden');
+                loginBox.classList.remove('hidden');
+            });
+
+            cancelBtn.addEventListener('click', function() {
+                location.href = './';
+            });
+            
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const ra = document.getElementById('ra').value;
+                const digit = document.getElementById('digit').value;
+                const uf = document.getElementById('uf').value;
+                const password = document.getElementById('password').value;
+                
+                errorMessage.textContent = '';
+                
+                if (ra.length !== 9) {
+                    showError('O RA deve ter exatamente 9 caracteres.');
+                    return;
+                }
+                
+                if (!/^\d+$/.test(ra)) {
+                    showError('O RA deve conter apenas números.');
+                    return;
+                }
+                
+                if (digit.length !== 1) {
+                    showError('O dígito deve ter exatamente 1 caractere.');
+                    return;
+                }
+                
+                if (!uf) {
+                    showError('Por favor, selecione sua UF.');
+                    return;
+                }
+                
+                sedLogin(ra, digit, uf, password);
+            });
+            
+            function showError(message) {
+                errorMessage.textContent = message;
+            }
+            
+            async function sedLogin(ra, digit, uf, password) {   
+                const loginBtn = loginForm.querySelector('button');
+                loginBtn.disabled = true;
+                loginBtn.textContent = 'Autenticando...';
+                
+                const sedLoginResponse = await fetch('/api/auth', {
+                    'method': 'POST',
+                    'headers': {'content-type': 'application/json'},
+                    'body': JSON.stringify(
+                        {
+                            'platform': '<%= client.clientTargetPlatform %>',
+                            ra,
+                            digit,
+                            uf,
+                            password
+                        }
+                    )
+                });
+                const sedLoginJson = await sedLoginResponse.json();
+
+                const success = !sedLoginJson['token'].includes(btoa('null'));
+                    
+                if (success) {
+                    errorMessage.textContent = '';
+                    const redirParam = '<%= client.clientRedir %>';
+
+                    if (redirParam) {
+                        try {
+                            const targetRedir = new URL(decodeURIComponent(redirParam));
+                            
+                            targetRedir.searchParams.append('sdf_token', sedLoginJson.token);
+                        
+                            window.location.href = targetRedir.toString();
+                        } catch {}
+                    } else {
+                        location.href = 'https://saladofuturo.educacao.sp.gov.br/';
+                    }
+
+                    location.href = decodeURIComponent(new URL(targetRedir));
+                } else {
+                    showError('Credenciais inválidas. Por favor, tente novamente.');
+                    loginBtn.disabled = false;
+                    loginBtn.textContent = 'Entrar';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
