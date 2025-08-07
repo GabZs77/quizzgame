@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Painel Escolar</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+    * {margin:0; padding:0; box-sizing:border-box; font-family:'Orbitron', sans-serif;}
+    body {
+      background: radial-gradient(circle at top left, #4b0082, #000);
+      height: 100vh; color:#fff;
+      display: flex; overflow: hidden;
+    }
+    .sidebar {
+      position: fixed;
+      left: -260px;
+      top: 0;
+      width: 240px;
+      height: 100%;
+      background: rgba(75,0,130,0.95);
+      box-shadow: 2px 0 10px rgba(186,85,211,0.5);
+      padding-top: 60px;
+      transition: left 0.3s ease;
+      z-index: 10;
+    }
+    .sidebar.active {
+      left: 0;
+    }
+    .sidebar a {
+      display: block;
+      padding: 15px 20px;
+      color: #e0b3ff;
+      font-size: 1.1rem;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .sidebar a:hover {
+      background: rgba(186,85,211,0.3);
+    }
+    .menu-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: rgba(75,0,130,0.9);
+      border: none;
+      border-radius: 5px;
+      padding: 10px 15px;
+      font-size: 1.8rem;
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 0 10px #c964ff;
+      z-index: 20;
+    }
+    main {
+      margin-left: 0;
+      padding: 3rem 2rem;
+      flex: 1;
+      overflow-y: auto;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2rem;
+      text-shadow: 0 0 10px #ba55d3;
+    }
+    #welcomeMsg {
+      font-size: 1.2rem;
+      color: #d8b0ff;
+    }
+    @media (max-width: 600px) {
+      main { padding: 2rem 1rem; }
+      h1 { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+
+  <nav class="sidebar" id="sidebar">
+    <a href="estudar.html">📚 Estudar</a>
+    <a href="jogar.html">🎮 Jogar</a>
+    <a href="loja.html">🛒 Loja</a>
+    <a href="index.html" onclick="logout()">⏻ Sair</a>
+  </nav>
+
+  <main>
+    <h1>Painel Escolar</h1>
+    <p id="welcomeMsg"></p>
+    <p>Aqui você pode navegar pelas abas no menu lateral.</p>
+  </main>
+
+  <script>
+    function toggleSidebar(){
+      document.getElementById('sidebar').classList.toggle('active');
+    }
+
+    function logout(){
+      localStorage.removeItem('currentUser');
+    }
+
+    const currentUser = localStorage.getItem('currentUser');
+    if (!currentUser) {
+      alert("Você precisa estar logado!");
+      window.location.href = "index.html";
+    } else {
+      document.getElementById('welcomeMsg').innerText = `Olá, ${currentUser}! Bem-vindo ao seu painel.`;
+    }
+  </script>
+</body>
+</html>
